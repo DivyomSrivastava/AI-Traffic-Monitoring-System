@@ -1,11 +1,10 @@
 import cv2
 from ultralytics import YOLO
 
-from analytics import signal_controller
 from analytics.traffic_density import TrafficDensity
 from analytics.line_counter import LineCounter
 from analytics.signal_controller import SignalController
-
+from analytics.traffic_statistics import TrafficStatistics
 
 from utils.constants import (
     VEHICLE_CLASSES,
@@ -17,7 +16,6 @@ from utils.constants import (
     BOX_THICKNESS,
     TEXT_COLOR,
 )
-
 
 def run_vehicle_tracker():
 
@@ -36,6 +34,7 @@ def run_vehicle_tracker():
 
     line_counter = None
     density_calculator = TrafficDensity()
+    statistics = TrafficStatistics()
     signal_controller = SignalController()
     while True:
 
@@ -160,6 +159,8 @@ def run_vehicle_tracker():
         density = density_calculator.calculate(
             counts["Total"]
         )
+        statistics.update(counts, density)
+        traffic_stats = statistics.get_statistics()
         green_time = signal_controller.get_signal_time(density)
         recommendation = signal_controller.get_recommendation(density)
 
@@ -167,7 +168,7 @@ def run_vehicle_tracker():
         cv2.rectangle(
             annotated_frame,
             (10, 10),
-            (430, 330),
+            (500, 420),
             (40, 40, 40),
             -1,
         )
@@ -264,14 +265,46 @@ def run_vehicle_tracker():
             (255, 255, 255),
             2,
         )
-        
         cv2.putText(
             annotated_frame,
-            recommendation,
+            f"{recommendation}",
             (40, 310),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.60,
             (0, 255, 0),
+            2,
+        )
+        
+   
+
+        # Traffic Statistics
+        cv2.putText(
+            annotated_frame,
+            f"Flow Rate : {traffic_stats['Flow Rate']} veh/min",
+            (25, 340),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.60,
+            (255, 255, 255),
+            2,
+        )
+
+        cv2.putText(
+            annotated_frame,
+            f"Peak Density : {traffic_stats['Peak Density']}",
+            (25, 365),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.60,
+            (0, 255, 255),
+            2,
+        )
+
+        cv2.putText(
+            annotated_frame,
+            f"Elapsed : {traffic_stats['Elapsed Time']} sec",
+            (25, 390),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.60,
+            (255, 255, 255),
             2,
         )
 
@@ -279,7 +312,7 @@ def run_vehicle_tracker():
         # Display Window
         cv2.imshow(
             "AI Traffic Monitoring System",
-            annotated_frame,
+            annotated_frame,            
         )
 
         # Exit
