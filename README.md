@@ -232,21 +232,40 @@ CSV Report Generation
 
 # 📸 Screenshots
 
-Add screenshots inside
+## Dashboard
 
-```
-screenshots/
-```
+![Dashboard](screenshots/dashboard.png)
 
-Example
+---
 
-```
-Dashboard.png
-Detection.png
-Tracking.png
-Density.png
-CSV_Report.png
-```
+## Vehicle Detection
+
+![Detection](screenshots/detection.png)
+
+---
+
+## Vehicle Tracking
+
+![Tracking](screenshots/tracking.png)
+
+---
+
+## Traffic Density
+
+![Density](screenshots/density.png)
+
+---
+
+## Traffic Statistics
+
+![Statistics](screenshots/statistics.png)
+
+---
+
+## CSV Report
+
+![CSV Report](screenshots/csv_report.png)
+
 
 ---
 
