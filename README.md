@@ -250,12 +250,6 @@ CSV Report Generation
 
 ---
 
-## Traffic Density
-
-![Density](screenshots/density.png)
-
----
-
 ## Traffic Statistics
 
 ![Statistics](screenshots/statistics.png)
