@@ -5,6 +5,7 @@ from analytics.traffic_density import TrafficDensity
 from analytics.line_counter import LineCounter
 from analytics.signal_controller import SignalController
 from analytics.traffic_statistics import TrafficStatistics
+from analytics.report_generator import ReportGenerator
 
 from utils.constants import (
     VEHICLE_CLASSES,
@@ -36,6 +37,7 @@ def run_vehicle_tracker():
     density_calculator = TrafficDensity()
     statistics = TrafficStatistics()
     signal_controller = SignalController()
+    report_generator = ReportGenerator()
     while True:
 
         success, frame = cap.read()
@@ -316,9 +318,22 @@ def run_vehicle_tracker():
         )
 
         # Exit
-        if cv2.waitKey(1) & 0xFF == ord("q"):
+        key = cv2.waitKey(1) & 0xFF
+        
+        # Save Report
+        if key == ord("s"):
+            report_generator.generate(
+                counts,
+                density,
+                green_time,
+                traffic_stats
+            )
+            print("Report generated successfully.")
+        
+        # Quit
+        if key == ord("q"):
             break
-
+        
     cap.release()
     cv2.destroyAllWindows()
 
