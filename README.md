@@ -269,6 +269,17 @@ CSV Report Generation
 
 ---
 
+---
+## 📈 Results
+
+- Detects Cars, Motorcycles, Buses, and Trucks
+- Tracks vehicles using ByteTrack
+- Estimates traffic density
+- Recommends adaptive green signal duration
+- Generates downloadable CSV reports
+
+---
+
 # 👨‍💻 Author
 
 **Divyom Srivastava**
